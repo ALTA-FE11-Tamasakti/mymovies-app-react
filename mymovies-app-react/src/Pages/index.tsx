@@ -80,7 +80,7 @@ export default class Index extends Component<PropsType, StateType> {
         localStorage.setItem("FavMovie", JSON.stringify(parseFav));
         alert("Movie added to favorite");
       } else {
-        alert("Movie Already Exists");
+        alert("Movie Already Exist");
         localStorage.setItem("FavMovie", JSON.stringify([data]));
       }
     } else {
