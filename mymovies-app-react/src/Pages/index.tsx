@@ -1,34 +1,34 @@
+// Constructor start
 import { Component } from "react";
 import axios from "axios";
 
-import Loading from "../Components/Loading";
+import { LoadingAnimation } from "../Components/Loading";
 import Carousel from "../Components/Carousel";
+
 import Layout from "../Components/Layout";
 import Card from "../Components/Card";
+import { MovieType } from "../Utils/movie";
 import Footer from "../Components/Footer";
-
-interface DatasType {
-  id: number;
-  title: string;
-  poster_path: string;
-}
 
 interface PropsType {}
 
 interface StateType {
   loading: boolean;
-  datas: DatasType[];
+  datas: MovieType[];
   page: number;
+  totalPage: number;
 }
 
 export default class Index extends Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
+    // state sifatnya asynchronous, jadi tidak bisa langsung digunakan
     this.state = {
       // state: default value
       datas: [],
       loading: true,
       page: 1,
+      totalPage: 1,
     };
   }
   // Constructor end
@@ -36,18 +36,18 @@ export default class Index extends Component<PropsType, StateType> {
   // side effect
   componentDidMount() {
     // Jika dilakukan perubahan nilai dari sebuah state didalam side effect, maka akan dilakukan rerender
-    this.fetchData();
+    this.fetchData(1);
   }
 
-  fetchData() {
+  fetchData(page: number) {
     axios
       .get(
         "https://api.themoviedb.org/3/movie/now_playing?api_key=a8644e3a9f5212bdb57ae9031e4a6cbf&language=en-US&page=1"
       )
       .then((data) => {
         // apapun outputnya entah dia berhasil atau gagal, dimana terlihat ada jawaban dari backend, akan masuk ke then
-        const { results } = data.data; // destructuring
-        this.setState({ datas: results });
+        const { results, total_pages } = data.data; // destructuring
+        this.setState({ datas: results, totalPage: total_pages });
       })
       .catch((error) => {
         // akan masuk ke catch jikalau sama sekali tidak menerima jawaban dari backend, tidak di response dari backend, biasanya server down
@@ -56,28 +56,35 @@ export default class Index extends Component<PropsType, StateType> {
       .finally(() => this.setState({ loading: false }));
   }
 
-  nextpage() {
+  nextPage() {
     const newPage = this.state.page + 1;
-    this.setState({ page: newPage }, () => console.log(this.state.page));
+    this.setState({ page: newPage });
+    this.fetchData(newPage);
   }
 
   prevPage() {
     const newPage = this.state.page - 1;
     this.setState({ page: newPage });
+    this.fetchData(newPage);
   }
 
-  handleFavorite(data: DatasType) {
-    //Cek apakah film yang dipilih sudah ditambahkan atau belum, push jika belim ada, jika sudah ada kasih alert, jika tidak silahkan push datanya ke local storahe
-    const checkExist = localStorage.getItem("favMovie");
-    console.log(checkExist);
-
+  handleFavorite(data: MovieType) {
+    const checkExist = localStorage.getItem("FavMovie");
     if (checkExist) {
-      let parseFav: DatasType[] = JSON.parse(checkExist);
-      parseFav.push(data);
-      localStorage.setItem("favMovie", JSON.stringify(parseFav));
+      /*
+      TODO: Sebelum ditambahkan ke list favorit, silahkan buat pengkondisian/cek terlebih dahulu apakah film yang dipilih sudah ditambahkan atau belum, kasih alert jika ada, jika tidak silahkan push datanya ke localstorage
+      */
+      let parseFav: MovieType[] = JSON.parse(checkExist);
+      if (!parseFav.includes(data)) {
+        parseFav.push(data);
+        localStorage.setItem("FavMovie", JSON.stringify(parseFav));
+        alert("Movie added to favorite");
+      } else {
+        alert("Movie Already Exists");
+        localStorage.setItem("FavMovie", JSON.stringify([data]));
+      }
     } else {
-      localStorage.setItem("favMovie", JSON.stringify([data]));
-      alert("Succes added movie to favorite");
+      return checkExist;
     }
   }
 
@@ -106,16 +113,36 @@ export default class Index extends Component<PropsType, StateType> {
         )}
         <div className="grid grid-cols-4 gap-3 p-3">
           {this.state.loading
-            ? [...Array(20).keys()].map((data) => <Loading key={data} />)
+            ? [...Array(20).keys()].map((data) => (
+                <LoadingAnimation key={data} />
+              ))
             : this.state.datas.map((data) => (
                 <Card
                   key={data.id}
                   title={data.title}
                   image={data.poster_path}
                   id={data.id}
+                  labelButton="ADD TO FAVORITE"
                   onClickFav={() => this.handleFavorite(data)}
                 />
               ))}
+        </div>
+        <div className="btn-group w-full justify-center">
+          <button
+            className="btn"
+            onClick={() => this.prevPage()}
+            disabled={this.state.page === 1}
+          >
+            «
+          </button>
+          <button className="btn">{this.state.page}</button>
+          <button
+            className="btn"
+            onClick={() => this.nextPage()}
+            disabled={this.state.page === this.state.totalPage}
+          >
+            »
+          </button>
         </div>
         <Footer />
       </Layout>

@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Index from "./Pages";
+import App from "./Routes";
 
 import "./Styles/index.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Index />
+    <App />
   </React.StrictMode>
 );
