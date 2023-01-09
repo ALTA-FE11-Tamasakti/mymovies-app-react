@@ -43,7 +43,7 @@ const DetailMovie = () => {
         content={(data) => (
           <iframe
             width="100%"
-            height="315"
+            height="100%"
             src={`https://www.youtube.com/embed/${data.key}`}
             title={data.name}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -56,14 +56,18 @@ const DetailMovie = () => {
       ) : (
         <>
           {/*Fragment*/}
-          <div className="card lg:card-side bg-white shadow-xl">
+          <div
+            className="card lg:card-side dark:bg-gray-600 bg-white shadow-xl"
+            style={{ padding: "2rem" }}
+          >
             <figure>
               <img
                 src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                 alt={data.title}
+                style={{ borderRadius: "25px" }}
               />
             </figure>
-            <div className="card-body">
+            <div className="card-body dark:text-white">
               <p>Title: {data.title}</p>
 
               <p>Runtime: {data.runtime}</p>

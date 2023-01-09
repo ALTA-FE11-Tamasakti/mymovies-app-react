@@ -1,5 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Component, ReactNode } from "react";
+import { useEffect } from "react";
+import { ThemeContext } from "../Utils/Context";
+import { useState, useMemo } from "react";
 
 import Homepage from "../Pages";
 import DetailMovie from "../Pages/DetailMovies";
@@ -20,10 +22,23 @@ const router = createBrowserRouter([
   },
 ]);
 
-class App extends Component {
-  render() {
-    return <RouterProvider router={router} />;
-  }
-}
+const App = () => {
+  const [theme, setTheme] = useState("light");
+  const background = useMemo(() => ({ theme, setTheme }), [theme]);
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
+  return (
+    <ThemeContext.Provider value={background}>
+      <RouterProvider router={router} />
+    </ThemeContext.Provider>
+  );
+};
 
 export default App;

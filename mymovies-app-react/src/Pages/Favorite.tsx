@@ -5,6 +5,7 @@ import Layout from "../Components/Layout";
 import Card from "../Components/Card";
 import { MovieType } from "../Utils/movie";
 import { useTitle } from "../Utils/Hooks/useTitle";
+import "../Styles/Favorites.css";
 
 const Favorite = () => {
   useTitle("Filmku - Favorites");
@@ -33,7 +34,10 @@ const Favorite = () => {
 
   return (
     <Layout>
-      <div className="grid grid-cols-4 gap-3 p-3">
+      <div
+        className="container-lg mx-auto w-full dark:bg-gray-600 grid grid-cols-4 gap-3 p-3"
+        style={{ width: "100%", margin: "0", padding: "0" }}
+      >
         {loading
           ? [...Array(20).keys()].map((data) => <LoadingAnimation key={data} />)
           : datas.map((data) => (

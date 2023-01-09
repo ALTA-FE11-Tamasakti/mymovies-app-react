@@ -53,7 +53,7 @@ const Carousel: FC<CarouselProps> = ({ datas, content }) => {
   }, []);
 
   return (
-    <div className="h-96 w-full trailer">
+    <div className="h-96 w-full trailer" style={{ width: "85%" }}>
       <div className="relative h-full w-full overflow-hidden">
         <div className="top left absolute flex h-full w-full justify-between">
           <button

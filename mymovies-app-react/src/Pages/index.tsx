@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 
 import { LoadingAnimation } from "../Components/Loading";
@@ -7,6 +7,7 @@ import Card from "../Components/Card";
 import { MovieType } from "../Utils/movie";
 import Footer from "../Components/Footer";
 import { useTitle } from "../Utils/Hooks/useTitle";
+import { ThemeContext } from "../Utils/Context";
 
 const Index = () => {
   useTitle("Filmkus...");
@@ -15,6 +16,12 @@ const Index = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  function handleTheme() {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  }
+
   // this.state = {
   //   datas: [],
   //   loading: true,
@@ -98,7 +105,7 @@ const Index = () => {
           )}
         />
       )} */}
-      <div className="grid grid-cols-4 gap-3 p-3">
+      <div className="grid dark:bg-gray-600 grid-cols-4 gap-3 p-3">
         {loading
           ? [...Array(20).keys()].map((data) => <LoadingAnimation key={data} />)
           : datas.map((data) => (
@@ -113,11 +120,11 @@ const Index = () => {
             ))}
       </div>
       <div
-        className="btn-group w-full justify-center"
-        style={{ marginTop: "2rem" }}
+        className="btn-group dark:bg-gray-600 w-full justify-center"
+        style={{ paddingTop: "2rem" }}
       >
         <button
-          className="btn"
+          className="btn "
           onClick={() => prevPage()}
           disabled={page === 1}
         >
