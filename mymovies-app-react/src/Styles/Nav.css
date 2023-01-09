@@ -1,0 +1,17 @@
+.navbar {
+  width: 80%;
+  margin: 0 auto;
+  font-family: Poppins;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-home {
+  background-color: black;
+}
+
+.dropdown {
+  background-color: black;
+  border-radius: 10px;
+}

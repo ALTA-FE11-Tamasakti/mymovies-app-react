@@ -20,4 +20,21 @@ export interface MovieType {
   videos?: {
     results: VideosType[];
   };
+  vote_average?: number;
+  tagline?: string;
+}
+
+export interface SimiliarMovie {
+  id?: number;
+  title?: string;
+  poster_path?: string;
+  overview?: string;
+  release_date?: string;
+  runtime?: number;
+  genres?: GenreType[];
+  videos?: {
+    results: VideosType[];
+  };
+  vote_average?: number;
+  tagline?: string;
 }

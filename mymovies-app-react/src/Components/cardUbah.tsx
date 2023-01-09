@@ -1,29 +1,28 @@
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { FC } from "react";
-import "../Styles/Card.css";
+import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import Modal from "./Modal";
+import { withRouter } from "../Utils/navigation";
 
 interface CardProps {
-  title?: string;
-  image?: string;
-  id?: number;
-  labelButton?: string;
+  title: string;
+  image: string;
+  id: number;
+  labelButton: string;
   onClickFav?: () => void;
 }
 
 const Card: FC<CardProps> = ({ id, image, title, labelButton, onClickFav }) => {
   const navigate = useNavigate();
-
-  function onClickDetail() {
+  const onClickDetail = () => {
     navigate(`/movie/${id}`);
-  }
+  };
 
   return (
-    <div className="card lg:card-compact bg-white shadow-xl">
+    <div className="card card-compact bg-base-100 shadow-xl">
       <figure onClick={() => onClickDetail()}>
         <img
-          className="mx-auto img-card"
+          className="mx-auto"
           src={`https://image.tmdb.org/t/p/w500${image}`}
           alt={title}
         />
@@ -32,9 +31,8 @@ const Card: FC<CardProps> = ({ id, image, title, labelButton, onClickFav }) => {
         <h2 className="card-title text-center" onClick={() => onClickDetail()}>
           {title}
         </h2>
-
         <div className="card-actions w-full justify-center">
-          <Button label={labelButton} onClick={onClickFav} className="fav" />
+          <Button label={labelButton} onClick={onClickFav} />
         </div>
       </div>
     </div>

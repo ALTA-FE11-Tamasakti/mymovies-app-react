@@ -1,4 +1,5 @@
 import { FC, ReactNode, useState, useRef, useEffect } from "react";
+import "../Styles/Carousel.css";
 
 interface CarouselProps {
   datas: any[];
@@ -52,7 +53,7 @@ const Carousel: FC<CarouselProps> = ({ datas, content }) => {
   }, []);
 
   return (
-    <div className="h-96 w-full" style={{ margin: 0, marginTop: "-25px" }}>
+    <div className="h-96 w-full trailer">
       <div className="relative h-full w-full overflow-hidden">
         <div className="top left absolute flex h-full w-full justify-between">
           <button
