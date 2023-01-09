@@ -26,6 +26,7 @@ const Favorite = () => {
   function removeFavorite(data: MovieType) {
     let dupeDatas: MovieType[] = datas.slice();
     const filterData = dupeDatas.filter((item) => item.id !== data.id);
+    setDatas(filterData);
     localStorage.setItem("FavMovie", JSON.stringify(filterData));
     alert(`Delete ${data.title} from favorite list`);
   }

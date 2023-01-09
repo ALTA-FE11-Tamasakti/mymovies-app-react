@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import { LoadingAnimation } from "../Components/Loading";
-import Carousel from "../Components/Carousel";
 import Layout from "../Components/Layout";
 import Card from "../Components/Card";
 import { MovieType } from "../Utils/movie";
@@ -66,11 +65,10 @@ const Index = () => {
   function handleFavorite(data: MovieType) {
     const checkExist = localStorage.getItem("FavMovie");
     if (checkExist) {
-      /*
-      TODO: Sebelum ditambahkan ke list favorit, silahkan buat pengkondisian/cek terlebih dahulu apakah film yang dipilih sudah ditambahkan atau belum, kasih alert jika ada, jika tidak silahkan push datanya ke localstorage
-      */
       let parseFav: MovieType[] = JSON.parse(checkExist);
       parseFav.push(data);
+      if (parseFav.indexOf(data)) {
+      }
       localStorage.setItem("FavMovie", JSON.stringify(parseFav));
     } else {
       localStorage.setItem("FavMovie", JSON.stringify([data]));
