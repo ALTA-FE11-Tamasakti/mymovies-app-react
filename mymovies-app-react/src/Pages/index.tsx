@@ -12,17 +12,12 @@ import { setFavorites } from "Utils/Redux/reducer/reducer";
 
 const Index = () => {
   const dispatch = useDispatch();
-  useTitle("Cinephile - Now Playing Movie");
+  useTitle("Filmku - Now Playing Movie");
   // state sifatnya asynchronous, jadi tidak bisa langsung digunakan
   const [datas, setDatas] = useState<MovieType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [page, setPage] = useState<number>(1);
-  const { theme, setTheme } = useContext(ThemeContext);
-
-  function handleTheme() {
-    theme === "light" ? setTheme("dark") : setTheme("light");
-  }
 
   // this.state = {
   //   datas: [],
@@ -43,7 +38,9 @@ const Index = () => {
   function fetchData(page: number) {
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=a8644e3a9f5212bdb57ae9031e4a6cbf&language=en-US&page=${page}`
+        `now_playing?api_key=${
+          import.meta.env.VITE_API_KEY
+        }&language=en-US&page=${page}`
       )
       .then((data) => {
         // apapun outputnya entah dia berhasil atau gagal, dimana terlihat ada jawaban dari backend, akan masuk ke then

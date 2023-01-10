@@ -16,13 +16,16 @@ const DetailMovie = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useTitle(`${data.title}- Filmku`);
+
   useEffect(() => {
     fetchData();
   }, []);
 
   function fetchData() {
     fetch(
-      `https://api.themoviedb.org/3/movie/${id_movie}?api_key=a8644e3a9f5212bdb57ae9031e4a6cbf&language=en-US&append_to_response=videos`,
+      `https://api.themoviedb.org/3/movie/${id_movie}?api_key=${
+        import.meta.env.VITE_API_KEY
+      }&language=en-US&append_to_response=videos`,
       { method: "GET" }
     )
       .then((response) => response.json())

@@ -1,4 +1,3 @@
-import { useState, useEffect, FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "../Components/Layout";
 import Card from "../Components/Card";
@@ -10,7 +9,7 @@ import { setFavorites } from "../Utils/Redux/reducer/reducer";
 
 const Favorite = () => {
   const dispatch = useDispatch();
-  useTitle("Cinephile - Your Favorite Movie");
+  useTitle("Filmku - Your Favorite Movie");
   const datas = useSelector((state: RootState) => state.data.favorites);
 
   function removeFavorite(data: MovieType) {

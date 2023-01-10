@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { FC } from "react";
+
 import "../Styles/Card.css";
 import Button from "./Button";
 
