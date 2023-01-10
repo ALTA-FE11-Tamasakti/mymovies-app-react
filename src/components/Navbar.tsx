@@ -1,43 +1,88 @@
-import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { Link } from "react-router-dom";
+import "../Styles/Nav.css";
+import { useContext } from "react";
 
-export default class Navigation extends Component {
-  render() {
-    return (
-      <Navbar bg="white" expand="lg" sticky="top">
-        <Container fluid>
-          <Navbar.Brand href="#">FilmUhuy!</Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
-            <Nav
-              className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: "100px" }}
-              variant="pills"
-              navbarScroll
-            >
-              <Button variant="outline-dark" style={{ border: "none" }}>
-                Home
-              </Button>
-              <Button variant="outline-dark" style={{ border: "none" }}>
-                Favorites
-              </Button>
-            </Nav>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    );
+import { ThemeContext } from "../Utils/Context";
+
+const Navbar = () => {
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  function handleTheme() {
+    theme === "light" ? setTheme("dark") : setTheme("light");
   }
-}
+  return (
+    <div className="navbar dark:bg-gray-600">
+      <div className="navbar-start ">
+        <div className="dropdown">
+          <label tabIndex={0} className="btn btn-ghost lg:hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h8m-8 6h16"
+              />
+            </svg>
+          </label>
+          <ul
+            tabIndex={0}
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <Link to="/favorites">Favorites</Link>
+            </li>
+          </ul>
+        </div>
+        <Link
+          to="/"
+          className="btn btn-ghost normal-case text-xl "
+          style={{ backgroundColor: "black", marginLeft: "1rem" }}
+        >
+          Filmku
+        </Link>
+      </div>
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1">
+          <li className="dark:md:hover:bg-indigo-900">
+            <Link
+              className="dark:text-white "
+              to="/favorites"
+              style={{
+                color: "black",
+                fontFamily: "Poppins",
+                fontWeight: "700",
+                fontSize: "1.4em",
+                padding: "1rem",
+                letterSpacing: "0.15rem",
+              }}
+            >
+              <h3 className="dark:text-white">Favorites</h3>
+            </Link>
+          </li>
+        </ul>
+      </div>
+      <input type="checkbox" className="toggle" onClick={() => handleTheme()} />
+
+      <div className="navbar-end">
+        <input
+          type="text"
+          placeholder="Search Movies"
+          className="input input-bordered w-full max-w-xs"
+        />
+      </div>
+    </div>
+    // <div className="navbar bg-base-100">
+    //   <Link to="/" className="btn btn-ghost normal-case text-xl">
+    //     Cinephile
+    //   </Link>
+    // </div>
+  );
+};
+
+export default Navbar;

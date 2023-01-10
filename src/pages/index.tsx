@@ -1,83 +1,148 @@
-import { Component, useState } from "react";
-import Container from "react-bootstrap/esm/Container";
-import Row from "react-bootstrap/esm/Row";
-import Layout from "../components/Layout";
-import "../styles/App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Col } from "react-bootstrap";
-import CardComponent from "../components/Card";
-import CarouselComponent from "../components/Carousel";
-import Footer from "../components/Footer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { LoadingAnimation } from "Components/Loading";
+import Layout from "Components/Layout";
+import Card from "Components/Card";
+import { MovieType } from "Utils/movie";
+import Footer from "Components/Footer";
+import { useTitle } from "Utils/Hooks/useTitle";
+import { ThemeContext } from "Utils/Context";
+import { setFavorites } from "Utils/Redux/reducer/reducer";
 
-interface DatasType {
-  id: number;
-  title: string;
-  image: string;
-}
+const Index = () => {
+  const dispatch = useDispatch();
+  useTitle("Filmku - Now Playing Movie");
+  // state sifatnya asynchronous, jadi tidak bisa langsung digunakan
+  const [datas, setDatas] = useState<MovieType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [totalPage, setTotalPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);
 
-export default class Index extends Component<DatasType> {
-  state = {
-    datas: [],
-  };
+  // this.state = {
+  //   datas: [],
+  //   loading: true,
+  //   page: 1,
+  //   totalPage: 1,
+  // };
 
-  componentDidMount() {
-    this.fetchData();
+  // side effect
+  // Jika dilakukan perubahan nilai dari sebuah state didalam side effect, maka akan dilakukan rerender
+  useEffect(() => {
+    fetchData(1);
+  }, []);
+  // componentDidMount() {
+  //   this.fetchData(1);
+  // }
+
+  function fetchData(page: number) {
+    axios
+      .get(
+        `now_playing?api_key=${
+          import.meta.env.VITE_API_KEY
+        }&language=en-US&page=${page}`
+      )
+      .then((data) => {
+        // apapun outputnya entah dia berhasil atau gagal, dimana terlihat ada jawaban dari backend, akan masuk ke then
+        const { results, total_pages } = data.data; // destructuring
+        setDatas(results);
+        setTotalPage(total_pages);
+        // this.setState({ datas: results, totalPage: total_pages });
+      })
+      .catch((error) => {
+        // akan masuk ke catch jikalau sama sekali tidak menerima jawaban dari backend, tidak di response dari backend, biasanya server down
+        alert(error.toString());
+      })
+      .finally(() => setLoading(false));
   }
 
-  fetchData() {
-    let count = 1;
-    count += 1;
-    setTimeout(() => {
-      this.setState({
-        datas: [
-          {
-            id: new Date(),
-            title: `Avengers Movies`,
-            image: "https://pbs.twimg.com/media/FY-BpW9XwAIXIui.jpg",
-          },
-          {
-            id: new Date(),
-            title: `Avengers `,
-            image: "https://pbs.twimg.com/media/FY-BpW9XwAIXIui.jpg",
-          },
-        ],
-      });
-    }, 6000);
+  function nextPage() {
+    const newPage = page + 1;
+    setPage(newPage);
+    fetchData(newPage);
   }
-  render() {
-    return (
-      <Container fluid="md">
-        <Row>
-          <Col>
-            <Layout>
-              <CarouselComponent />
-              <Row xs={1} md={2} className="g-4">
-                {this.state.datas.map((data: DatasType) => (
-                  <CardComponent
-                    key={data.id}
-                    title={data.title}
-                    image={data.image}
-                  />
-                ))}
-              </Row>
-              {/* <h1>Favorites</h1>
-              <Row xs={1} md={2} className="g-4">
-                {this.state.datas.map((data: DatasType) => (
-                  <CardComponent
-                    key={data.id}
-                    title={data.title}
-                    image={data.image}
-                  />
-                ))}
-              </Row> */}
-              <Container fluid="md">
-                <Footer />
-              </Container>
-            </Layout>
-          </Col>
-        </Row>
-      </Container>
-    );
+
+  function prevPage() {
+    const newPage = page - 1;
+    setPage(newPage);
+    fetchData(newPage);
   }
-}
+
+  function handleFavorite(data: MovieType) {
+    const checkExist = localStorage.getItem("FavMovie");
+    if (checkExist) {
+      /*
+      TODO: Sebelum ditambahkan ke list favorit, silahkan buat pengkondisian/cek terlebih dahulu apakah film yang dipilih sudah ditambahkan atau belum, kasih alert jika ada, jika tidak silahkan push datanya ke localstorage
+      */
+      let parseFav: MovieType[] = JSON.parse(checkExist);
+      parseFav.push(data);
+      localStorage.setItem("FavMovie", JSON.stringify(parseFav));
+      dispatch(setFavorites(parseFav));
+    } else {
+      localStorage.setItem("FavMovie", JSON.stringify([data]));
+      alert("Movie added to favorite");
+    }
+  }
+
+  return (
+    <Layout>
+      {/* {!loading && (
+        <Carousel
+          datas={datas.slice(0, 5)}
+          content={(data) => (
+            <div
+              className="w-full h-full flex justify-center items-center bg-cover bg-center"
+              style={{
+                backgroundImage: `linear-gradient(
+                    rgba(0, 0, 0, 0.5),
+                    rgba(0, 0, 0, 0.5)
+                  ), url(https://image.tmdb.org/t/p/original${data.poster_path})`,
+              }}
+            >
+              <p className="text-white tracking-widest font-bold break-words text-2xl">
+                {data.title}
+              </p>
+            </div>
+          )}
+        />
+      )} */}
+      <div className="grid dark:bg-gray-600 grid-cols-4 gap-3 p-3">
+        {loading
+          ? [...Array(20).keys()].map((data) => <LoadingAnimation key={data} />)
+          : datas.map((data) => (
+              <Card
+                key={data.id}
+                title={data.title}
+                image={data.poster_path}
+                id={data.id}
+                labelButton="ADD TO FAVORITE"
+                onClickFav={() => handleFavorite(data)}
+              />
+            ))}
+      </div>
+      <div
+        className="btn-group dark:bg-gray-600 w-full justify-center"
+        style={{ paddingTop: "2rem" }}
+      >
+        <button
+          className="btn "
+          onClick={() => prevPage()}
+          disabled={page === 1}
+        >
+          «
+        </button>
+        <button className="btn">{page}</button>
+        <button
+          className="btn"
+          onClick={() => nextPage()}
+          disabled={page === totalPage}
+        >
+          »
+        </button>
+      </div>
+      <Footer />
+    </Layout>
+  );
+};
+
+export default Index;

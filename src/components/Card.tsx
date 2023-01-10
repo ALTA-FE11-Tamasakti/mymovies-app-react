@@ -1,38 +1,47 @@
-import React, { Component } from "react";
-import Card from "react-bootstrap/Card";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
-import ModalComponent from "./Modal";
+import { useNavigate } from "react-router-dom";
+import { FC } from "react";
+
+import "../Styles/Card.css";
+import Button from "./Button";
 
 interface CardProps {
-  title: string;
-  image: string;
+  title?: string;
+  image?: string;
+  id?: number;
+  labelButton?: string;
+  onClickFav?: () => void;
 }
 
-export default class CardComponent extends Component<CardProps> {
-  render() {
-    return (
-      <Row xs={1} md={2} className="g-4">
-        {Array.from({ length: 4 }).map((_, idx) => (
-          <Col>
-            <Card>
-              <Card.Img
-                variant="top"
-                src={this.props.image}
-                alt={this.props.title}
-              />
-              <Card.Body>
-                <Card.Title>{this.props.title}</Card.Title>
-                <Card.Text>
-                  <ModalComponent />
-                </Card.Text>
-                <Button variant="outline-success">Add To favorites</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    );
+const Card: FC<CardProps> = ({ id, image, title, labelButton, onClickFav }) => {
+  const navigate = useNavigate();
+
+  function onClickDetail() {
+    navigate(`/movie/${id}`);
   }
-}
+
+  return (
+    <div className="card lg:card-compact dark:bg-gray-600 bg-white shadow-xl">
+      <figure onClick={() => onClickDetail()}>
+        <img
+          className="mx-auto img-card"
+          src={`https://image.tmdb.org/t/p/w500${image}`}
+          alt={title}
+        />
+      </figure>
+      <div className="card-body items-center justify-between">
+        <h2
+          className="card-title text-center dark:text-white"
+          onClick={() => onClickDetail()}
+        >
+          {title}
+        </h2>
+
+        <div className="card-actions w-full justify-center ">
+          <Button label={labelButton} onClick={onClickFav} className="fav" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Card;

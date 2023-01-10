@@ -1,10 +1,14 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./pages";
-import "./styles/index.css";
+import App from "Routes";
+import "Styles/index.css";
+import axios from "axios";
+import { Provider } from "react-redux";
+import store from "Utils/Redux/store/store";
+
+axios.defaults.baseURL = "https://api.themoviedb.org/3/movie/";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>
+  </Provider>
 );

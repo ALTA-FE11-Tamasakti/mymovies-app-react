@@ -1,32 +1,25 @@
 import React, { Component } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Facebook from "../assets/Facebook.svg";
-import Instagram from "../assets/Instragram.svg";
-import Tiktok from "../assets/Tiktok.svg";
-import Twitter from "../assets/Twitter.svg";
 
-export default class Footer extends Component {
-  render() {
-    return (
-      <div className="footer">
-        <Container>
-          <Row>
-            <Col>
-              <h2
-                style={{
-                  fontFamily: "Poppins",
-                  fontWeight: "700",
-                  fontSize: "1rem",
-                }}
-              >
-                @Copyright FilmUhuy 2022
-              </h2>
-            </Col>
-          </Row>
-        </Container>
+const Footer = () => {
+  return (
+    <footer
+      className="footer footer-center p-4 dark:bg-gray-600 text-base-content"
+      style={{ paddingTop: "2rem", paddingBottom: "2rem" }}
+    >
+      <div>
+        <h3
+          className="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight"
+          style={{
+            fontFamily: "Poppins",
+            fontWeight: "600",
+            fontSize: "1.3em",
+          }}
+        >
+          Copyright © 2023 - All right reserved by FIlmku
+        </h3>
       </div>
-    );
-  }
-}
+    </footer>
+  );
+};
+
+export default Footer;

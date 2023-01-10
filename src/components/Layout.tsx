@@ -1,25 +1,18 @@
-import React, { Component } from "react";
-import CardComponent from "./Card";
-import Navigation from "./Navbar";
-import Container from "react-bootstrap/esm/Container";
-import Row from "react-bootstrap/esm/Row";
-import { Col } from "react-bootstrap";
+import React, { FC } from "react";
+
+import Navbar from "./Navbar";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-export default class Layout extends Component<LayoutProps> {
-  render() {
-    return (
-      <Container fluid="md">
-        <Row>
-          <Col>
-            <Navigation />
-            {this.props.children}
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
-}
+const Layout: FC<LayoutProps> = ({ children }) => {
+  return (
+    <div className="w-full h-screen dark:bg-gray-600 bg-white flex flex-col overflow-auto">
+      <Navbar />
+      <div className="h-full w-full overflow-auto p-2">{children}</div>
+    </div>
+  );
+};
+
+export default Layout;
