@@ -1,9 +1,9 @@
 import ReactDOM from "react-dom/client";
-import App from "./Routes";
-import "./Styles/index.css";
+import App from "Routes";
+import "Styles/index.css";
 import axios from "axios";
 import { Provider } from "react-redux";
-import store from "./Utils/Redux/store/store";
+import store from "Utils/Redux/store/store";
 
 axios.defaults.baseURL = "https://api.themoviedb.org/3/movie/";
 
