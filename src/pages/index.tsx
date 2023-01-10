@@ -7,7 +7,6 @@ import Card from "Components/Card";
 import { MovieType } from "Utils/movie";
 import Footer from "Components/Footer";
 import { useTitle } from "Utils/Hooks/useTitle";
-import { ThemeContext } from "Utils/Context";
 import { setFavorites } from "Utils/Redux/reducer/reducer";
 
 const Index = () => {
