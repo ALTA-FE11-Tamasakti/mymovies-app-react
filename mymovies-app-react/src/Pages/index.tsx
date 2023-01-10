@@ -1,16 +1,18 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-
-import { LoadingAnimation } from "../Components/Loading";
-import Layout from "../Components/Layout";
-import Card from "../Components/Card";
-import { MovieType } from "../Utils/movie";
-import Footer from "../Components/Footer";
-import { useTitle } from "../Utils/Hooks/useTitle";
-import { ThemeContext } from "../Utils/Context";
+import { useDispatch } from "react-redux";
+import { LoadingAnimation } from "Components/Loading";
+import Layout from "Components/Layout";
+import Card from "Components/Card";
+import { MovieType } from "Utils/movie";
+import Footer from "Components/Footer";
+import { useTitle } from "Utils/Hooks/useTitle";
+import { ThemeContext } from "Utils/Context";
+import { setFavorites } from "Utils/Redux/reducer/reducer";
 
 const Index = () => {
-  useTitle("Filmkus...");
+  const dispatch = useDispatch();
+  useTitle("Cinephile - Now Playing Movie");
   // state sifatnya asynchronous, jadi tidak bisa langsung digunakan
   const [datas, setDatas] = useState<MovieType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -72,11 +74,13 @@ const Index = () => {
   function handleFavorite(data: MovieType) {
     const checkExist = localStorage.getItem("FavMovie");
     if (checkExist) {
+      /*
+      TODO: Sebelum ditambahkan ke list favorit, silahkan buat pengkondisian/cek terlebih dahulu apakah film yang dipilih sudah ditambahkan atau belum, kasih alert jika ada, jika tidak silahkan push datanya ke localstorage
+      */
       let parseFav: MovieType[] = JSON.parse(checkExist);
       parseFav.push(data);
-      if (parseFav.indexOf(data)) {
-      }
       localStorage.setItem("FavMovie", JSON.stringify(parseFav));
+      dispatch(setFavorites(parseFav));
     } else {
       localStorage.setItem("FavMovie", JSON.stringify([data]));
       alert("Movie added to favorite");

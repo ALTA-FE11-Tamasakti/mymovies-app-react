@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { LoadingAnimation } from "../Components/Loading";
-import Carousel from "../Components/Carousel";
-import Layout from "../Components/Layout";
-import { MovieType, VideosType } from "../Utils/movie";
-import { useTitle } from "../Utils/Hooks/useTitle";
-import Footer from "../Components/Footer";
+import { LoadingAnimation } from "Components/Loading";
+import Carousel from "Components/Carousel";
+import Layout from "Components/Layout";
+import { MovieType, VideosType } from "Utils/movie";
+import { useTitle } from "Utils/Hooks/useTitle";
+import Footer from "Components/Footer";
 
 const DetailMovie = () => {
   const { id_movie } = useParams();
