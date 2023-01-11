@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import Layout from "Components/Layout";
-import Button from "Components/Button";
-import { Input } from "Components/Input";
+import Layout from "components/Layout";
+import Button from "components/Button";
+import { Input } from "components/Input";
 
 interface TodoType {
   id: number;

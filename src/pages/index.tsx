@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { LoadingAnimation } from "Components/Loading";
-import Layout from "Components/Layout";
-import Card from "Components/Card";
+import { LoadingAnimation } from "components/Loading";
+import Layout from "components/Layout";
+import Card from "components/Card";
 import { MovieType } from "Utils/movie";
-import Footer from "Components/Footer";
+import Footer from "components/Footer";
 import { useTitle } from "Utils/Hooks/useTitle";
 import { setFavorites } from "Utils/Redux/reducer/reducer";
 

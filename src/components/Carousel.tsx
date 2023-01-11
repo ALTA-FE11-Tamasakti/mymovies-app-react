@@ -1,5 +1,5 @@
 import { FC, ReactNode, useState, useRef, useEffect } from "react";
-import "../Styles/Carousel.css";
+import "../styles/Carousel.css";
 
 interface CarouselProps {
   datas: any[];
