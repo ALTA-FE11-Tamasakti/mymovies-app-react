@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "../Styles/Nav.css";
+import "../styles/Nav.css";
 import { useContext } from "react";
 
 import { ThemeContext } from "../Utils/Context";
