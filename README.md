@@ -4,5 +4,5 @@ Try to implement clean UI. Made with React Vite and Libraries like tailwind css,
 check my website by following this link https://pilemku.vercel.app/
 
 ## 🧰 Languages and Tools:
-https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
